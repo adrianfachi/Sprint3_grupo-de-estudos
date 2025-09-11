@@ -13,7 +13,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
 }
 
 .logo {
@@ -125,13 +124,13 @@
 #temperatura {
     margin: 16px;
     margin-top: 8px;
-    padding: 20px;
+    padding: 50px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: 100vw;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 190px);
+    height: calc(100vh - 250px);
     justify-content: space-between;
     border-radius: 12px;
     text-transform: capitalize;
@@ -141,6 +140,20 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#tempIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+    h2 {
+        font-size: 5rem;
+    }
+    img {
+        width: auto;
+    }
 }
 
 #detalhes {
@@ -173,6 +186,27 @@
     align-items: center;
     padding: 16px;
     gap: 10px;
+    text-transform: capitalize;
+
+    img {
+        width: 70px;
+    }
+}
+
+.popup , .popupAtivo{
+    position: fixed;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 20px;
+    transition: 0.6s ease-in-out;
+    z-index: 1000;
+    background-color: rgba(255, 158, 158, 1);
+    color: rgba(255, 0, 0, 1);
+    cursor: default;
+}
+
+.popup {
+    opacity: 0;
 }
 
 @media (max-width: 1000px) {
