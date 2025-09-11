@@ -1,28 +1,33 @@
 import css from './style.module.css'
-import logo from '../../assets/Logo.png'
+import logo from '../../assets/Logo.svg'
 import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
-import ClearDay from '../../assets/ClearDay.png'
-import ClearNight from '../../assets/ClearNight.png'
-import CloudyDay from '../../assets/CloudyDay.png'
-import CloudyNight from '../../assets/CloudyNight.png'
-import RainDay from '../../assets/RainDay.png'
-import RainNight from '../../assets/RainNight.png'
-import SnowDay from '../../assets/SnowDay.png'
-import SnowNight from '../../assets/SnowNight.png'
-import StormDay from '../../assets/StormDay.png'
-import StormNight from '../../assets/StormNight.png'
-import Default from '../../assets/Default.png'
-import ClearDayIcon from '../../assets/Weather=Clear, Moment=Day.png'
-import ClearNightIcon from '../../assets/Weather=Clear, Moment=Night.png'
-import CloudyDayIcon from '../../assets/Weather=Cloudy, Moment=Day.png'
-import CloudyNightIcon from '../../assets/Weather=Clear, Moment=Night.png'
-import RainDayIcon from '../../assets/Weather=Rain, Moment=Day.png'
-import RainNightIcon from '../../assets/Weather=Rain, Moment=Night.png'
-import SnowDayIcon from '../../assets/Weather=Snow, Moment=Day.png'
-import SnowNightIcon from '../../assets/Weather=Snow, Moment=Night.png'
-import StormDayIcon from '../../assets/Weather=Storm, Moment=Day.png'
-import StormNightIcon from '../../assets/Weather=Snow, Moment=Night.png'
+import ClearDay from '../../assets/ClearDay.svg'
+import ClearNight from '../../assets/ClearNight.svg'
+import CloudyDay from '../../assets/CloudyDay.svg'
+import CloudyNight from '../../assets/CloudyNight.svg'
+import RainDay from '../../assets/RainDay.svg'
+import RainNight from '../../assets/RainNight.svg'
+import SnowDay from '../../assets/SnowDay.svg'
+import SnowNight from '../../assets/SnowNight.svg'
+import StormDay from '../../assets/StormDay.svg'
+import StormNight from '../../assets/StormNight.svg'
+import Default from '../../assets/RainNight.svg'
+import ClearDayIcon from '../../assets/Weather=Clear, Moment=Day.svg'
+import ClearNightIcon from '../../assets/Weather=Clear, Moment=Night.svg'
+import CloudyDayIcon from '../../assets/Weather=Cloudy, Moment=Day.svg'
+import CloudyNightIcon from '../../assets/Weather=Clear, Moment=Night.svg'
+import RainDayIcon from '../../assets/Weather=Rain, Moment=Day.svg'
+import RainNightIcon from '../../assets/Weather=Rain, Moment=Night.svg'
+import SnowDayIcon from '../../assets/Weather=Snow, Moment=Day.svg'
+import SnowNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
+import StormDayIcon from '../../assets/Weather=Storm, Moment=Day.svg'
+import StormNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
+import iconFeelsLike from '../../assets/iconFeelsLike.svg'
+import iconHumidity from '../../assets/iconHumidity.svg'
+import iconPrecipProb from '../../assets/iconPrecipProb.svg'
+import iconUvIndex from '../../assets/iconUvIndex.svg'
+import iconWindSpeed from '../../assets/iconWindSpeed.svg'
 
 function WeatherData() {
     const [dados, setDados] = useState<dadosInterface>()
@@ -188,11 +193,11 @@ function WeatherData() {
                         <section>
                             <div id={css.detalhes}>
                                 <p>Detalhes do clima hoje</p>
-                                <p>Sensação termica <span>{dados.currentConditions.feelslike.toFixed(0)}°C</span></p>
-                                <p>Probabilidade de chuva <span>{dados.currentConditions.precipprob.toFixed(0)}%</span></p>
-                                <p>Velocidade do vento <span>{dados.currentConditions.windspeed.toFixed(0)} km/h</span></p>
-                                <p>Umidade do ar <span>{dados.currentConditions.humidity.toFixed(0)}%</span></p>
-                                <p>Índice UV <span>{dados.currentConditions.uvindex.toFixed(0)}</span></p>
+                                <p><span><img src={iconFeelsLike} alt="" />Sensação termica</span> <span>{dados.currentConditions.feelslike.toFixed(0)}°C</span></p>
+                                <p><span><img src={iconPrecipProb} alt="" />Probabilidade de chuva</span> <span>{dados.currentConditions.precipprob.toFixed(0)}%</span></p>
+                                <p><span><img src={iconWindSpeed} alt="" />Velocidade do vento</span> <span>{dados.currentConditions.windspeed.toFixed(0)} km/h</span></p>
+                                <p><span><img src={iconHumidity} alt="" />Umidade do ar</span> <span>{dados.currentConditions.humidity.toFixed(0)}%</span></p>
+                                <p><span><img src={iconUvIndex} alt="" />Índice UV</span> <span>{dados.currentConditions.uvindex.toFixed(0)}</span></p>
                             </div>
                             <div id={css.previsao}>
                                 <>
