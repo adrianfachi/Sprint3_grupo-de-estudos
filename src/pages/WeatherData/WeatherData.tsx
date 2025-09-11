@@ -88,6 +88,7 @@ function WeatherData() {
 
             const api = await axios.get<dadosInterface>(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(city[0].name)}?unitGroup=metric&key=${key2}&contentType=json`)
             const temp: dadosInterface = api.data
+            console.log(api)
             setDados(temp)
         } catch (error) {
             ativaPopup("Cidade não encontrada!")
@@ -171,7 +172,7 @@ function WeatherData() {
                                 <div id={css.nomeDatas}>
                                     <div>
                                         <h2>{dadosCity[0].local_names ? (dadosCity[0].local_names.pt) : (dadosCity[0].name)}, {dadosCity[0].state ? (dadosCity[0].state) : (dadosCity[0].country)}</h2>
-                                        <p>{new Date(dados.currentConditions.datetimeEpoch * 1000).toLocaleDateString(undefined, {
+                                        <p>{new Date(dados.days[1].datetime).toLocaleDateString(undefined, {
                                             weekday: 'long',
                                             year: 'numeric',
                                             month: 'long',
@@ -208,22 +209,22 @@ function WeatherData() {
                                             <p>{dados.days[1].tempmax.toFixed(0)}°C <span>{dados.days[1].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[2].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
+                                            <p>{new Date(dados.days[3].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[2].conditions, 12)} alt="Icone tempo" />
                                             <p>{dados.days[2].tempmax.toFixed(0)}°C <span>{dados.days[2].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[3].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
+                                            <p>{new Date(dados.days[4].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[3].conditions, 12)} alt="Icone tempo" />
                                             <p>{dados.days[3].tempmax.toFixed(0)}°C <span>{dados.days[3].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[4].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
+                                            <p>{new Date(dados.days[5].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[4].conditions, 12)} alt="Icone tempo" />
                                             <p>{dados.days[4].tempmax.toFixed(0)}°C <span>{dados.days[4].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[5].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
+                                            <p>{new Date(dados.days[6].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[5].conditions, 12)} alt="Icone tempo" />
                                             <p>{dados.days[5].tempmax.toFixed(0)}°C <span>{dados.days[5 ].tempmin.toFixed(0)}°C</span></p>
                                         </div>
