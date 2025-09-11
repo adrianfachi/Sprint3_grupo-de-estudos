@@ -86,7 +86,7 @@ function WeatherData() {
             const city: Array<dadosCityInterface> = apiCity.data
             if (city.length > 0) setDadosCity(city)
 
-            const api = await axios.get<dadosInterface>(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(city[0].name)}?unitGroup=metric&key=${key2}&lang=pt-br&contentType=json`)
+            const api = await axios.get<dadosInterface>(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(city[0].name)}?unitGroup=metric&key=${key2}&contentType=json`)
             const temp: dadosInterface = api.data
             setDados(temp)
         } catch (error) {
@@ -97,7 +97,6 @@ function WeatherData() {
 
 
     function getBackgroundImage(clima: string, hour: number) {
-        // console.log(hour)
         const isNight = hour < 6 || hour >= 18
         const normalized = clima.toLowerCase()
         if (normalized.includes('clear')) {
