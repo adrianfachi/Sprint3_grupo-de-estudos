@@ -94,6 +94,9 @@ function WeatherData() {
             const temp: dadosInterface = api.data
             
             setDados(temp)
+            if(cityName.current) {
+                cityName.current.value = ""
+            }
         } catch (error) {
             ativaPopup("Cidade não encontrada!")
         } finally {
