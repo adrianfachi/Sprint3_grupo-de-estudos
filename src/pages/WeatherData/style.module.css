@@ -59,14 +59,32 @@
         }
     }
 
+    .searchEngine {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        background-color: #1E1E29;
+        width: 30vw;
+        align-items: center;
+
+        img:last-child {
+            width: 32px;
+            height: 32px;
+            margin: 10px;
+            background-color: #1E1E29;
+            animation: spin 1s linear infinite;
+        }
+    }
+
     #input {
         background-color: #1E1E29;
-        padding: 20px;
-        border-radius: 8px;
         border: none;
+        outline: none;
+        height: 56px;
+        padding-left: 16px;
+        border-radius: 12px;
         width: 25vw;
         color: #FAFAFA;
-        outline: none;
     }
 
     #input::placeholder {
@@ -97,15 +115,24 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    #input {
+    .searchEngine {
+        display: flex;
+        justify-content: space-between;
         background-color: #1E1E29;
-        border: none;
-        outline: none;
-        height: 56px;
-        padding-left: 16px;
-        border-radius: 12px;
         width: 50vw;
-        color: #FAFAFA;
+        align-items: center;
+        
+
+        input {
+            background-color: #1E1E29;
+            border: none;
+            outline: none;
+            height: 56px;
+            padding-left: 16px;
+            border-radius: 12px;
+            width: 40vw;
+            color: #FAFAFA;
+        }
     }
 
     #input::placeholder {
@@ -117,7 +144,22 @@
         border-radius: 12px;
         padding: 8px;
     }
+
+    img:last-child {
+        width: 32px;
+        height: 32px;
+        margin: 4px;
+        background-color: #1E1E29;
+        animation: spin 1s linear infinite;
+    }
 }
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 
 #pesquisaTemp {
     background-color: #16161F;
@@ -207,7 +249,6 @@
 #prev5dias {
     color: #7F7F98;
     font-weight: 700;
-    padding: 16px;
 }
 
 #previsoes {
@@ -285,11 +326,9 @@
         height: 100vw;
         border-radius: 20px;
         font-size: 0.8rem;
-    }
 
-    #tempIcon {
         h2 {
-            font-size: 1.6rem;
+            font-size: 2.4rem;
         }
     }
 
@@ -300,10 +339,6 @@
 
     #previsao {
         margin-bottom: 16px;
-    }
-
-    #detalhes {
-        margin-top: 16px;
     }
 }
 
