@@ -28,6 +28,7 @@ import iconHumidity from '../../assets/iconHumidity.svg'
 import iconPrecipProb from '../../assets/iconPrecipProb.svg'
 import iconUvIndex from '../../assets/iconUvIndex.svg'
 import iconWindSpeed from '../../assets/iconWindSpeed.svg'
+import LoadingIcon from '../../assets/Loading.svg'
 
 function WeatherData() {
     const [dados, setDados] = useState<dadosInterface>()
@@ -37,6 +38,8 @@ function WeatherData() {
     const cityName = useRef<HTMLInputElement>(null);
     const tempDiv = useRef<HTMLDivElement>(null);
     const popup = useRef<HTMLDivElement>(null)
+    const [loading, setLoading] = useState(false);
+
 
 
     interface dadosInterface {
@@ -82,22 +85,28 @@ function WeatherData() {
 
     async function searchCity() {
         try {
+            setLoading(true)
             const apiCity = await axios.get<Array<dadosCityInterface>>(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName.current?.value}&limit=1&appid=${key}`)
             const city: Array<dadosCityInterface> = apiCity.data
             if (city.length > 0) setDadosCity(city)
 
             const api = await axios.get<dadosInterface>(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(city[0].name)}?unitGroup=metric&key=${key2}&contentType=json`)
             const temp: dadosInterface = api.data
-            console.log(api)
             setDados(temp)
+            if(cityName.current) {
+                cityName.current.value = ""
+            }
         } catch (error) {
             ativaPopup("Cidade não encontrada!")
+        } finally {
+            setLoading(false)
         }
 
     }
 
 
     function getBackgroundImage(clima: string, hour: number) {
+        // console.log(hour)
         const isNight = hour < 6 || hour >= 18
         const normalized = clima.toLowerCase()
         if (normalized.includes('clear')) {
@@ -166,7 +175,10 @@ function WeatherData() {
                         <section id={css.pesquisaTemp}>
                             <div id={css.pesquisaDados}>
                                 <img src={logo} alt="Logo"/>
-                                <input ref={cityName} type="text" placeholder='Buscar local' id={css.input}/>
+                                <div className={css.searchEngine}>
+                                    <input ref={cityName} type="text" placeholder='Buscar local' id={css.input}/>
+                                    {loading && <img src={LoadingIcon} alt="..." />}
+                                </div>
                             </div>
                             <div id={css.temperatura} ref={tempDiv}>
                                 <div id={css.nomeDatas}>
@@ -246,7 +258,10 @@ function WeatherData() {
                             <h2 className={css.boasVindas}>Boas vindas ao <span id={css.strong}>WeatherData</span></h2>
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
-                        <input ref={cityName} type="text" placeholder='Buscar local' id={css.input} />
+                        <div className={css.searchEngine}>
+                            <input ref={cityName} type="text" placeholder='Buscar local' id={css.input}/>
+                            {loading && <img src={LoadingIcon} alt="..." />}
+                        </div>
                     </div>
                 </>
             )}
