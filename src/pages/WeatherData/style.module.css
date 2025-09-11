@@ -197,17 +197,22 @@
 #previsao {
     display: flex;
     flex-direction: column;
-    margin: 16px;
+    margin-right: 16px;
+    margin-top: 16px;
     padding: 16px;
     background-color: #16161F;
-    border-radius: 12px;
+    border-radius: 12px;   
+}
+
+#prev5dias {
+    color: #7F7F98;
+    font-weight: 700;
 }
 
 #previsoes {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    flex-wrap: wrap;
 }
 
 .previsoesDias {
@@ -218,9 +223,24 @@
     padding: 16px;
     gap: 10px;
     text-transform: capitalize;
+    text-align: center;
 
     img {
-        width: 120px;
+        max-width: 6vw;
+    }
+
+    p {
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #BFBFD4;
+    }
+
+    p:last-child {
+        color: #FAFAFA;
+    }
+
+    p > span {
+        color: #7F7F98;
     }
 }
 
@@ -263,6 +283,11 @@
     #temperatura {
         height: 100vw;
         border-radius: 20px;
+        font-size: 0.8rem;
+
+        h2 {
+            font-size: 2.4rem;
+        }
     }
 
     #input {
@@ -270,6 +295,9 @@
         width: auto;
     }
 
+    #previsao {
+        margin-bottom: 16px;
+    }
 }
 
 

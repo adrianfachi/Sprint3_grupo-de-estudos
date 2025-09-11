@@ -201,32 +201,32 @@ function WeatherData() {
                             </div>
                             <div id={css.previsao}>
                                 <>
-                                    <p>Previsão para 5 dias</p>
+                                    <p id={css.prev5dias}>Previsão para 5 dias</p>
                                     <div id={css.previsoes}>
-                                        <div className={css.previsoesDias}>
-                                            <p>Hoje</p>
-                                            <img src={getIcon(dados.days[0].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[0].tempmax.toFixed(0)}°C / {dados.days[0].tempmin.toFixed(0)}°C</p>
-                                        </div>
                                         <div className={css.previsoesDias}>
                                             <p>Amanhã</p>
                                             <img src={getIcon(dados.days[1].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[1].tempmax.toFixed(0)}°C / {dados.days[1].tempmin.toFixed(0)}°C</p>
+                                            <p>{dados.days[1].tempmax.toFixed(0)}°C <span>{dados.days[1].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[2].datetime).toLocaleDateString(undefined, { weekday: 'long' })}</p>
+                                            <p>{new Date(dados.days[2].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[2].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[2].tempmax.toFixed(0)}°C / {dados.days[2].tempmin.toFixed(0)}°C</p>
+                                            <p>{dados.days[2].tempmax.toFixed(0)}°C <span>{dados.days[2].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[3].datetime).toLocaleDateString(undefined, { weekday: 'long' })}</p>
+                                            <p>{new Date(dados.days[3].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[3].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[3].tempmax.toFixed(0)}°C / {dados.days[3].tempmin.toFixed(0)}°C</p>
+                                            <p>{dados.days[3].tempmax.toFixed(0)}°C <span>{dados.days[3].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                         <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[4].datetime).toLocaleDateString(undefined, { weekday: 'long' })}</p>
+                                            <p>{new Date(dados.days[4].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[4].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[4].tempmax.toFixed(0)}°C / {dados.days[4].tempmin.toFixed(0)}°C</p>
+                                            <p>{dados.days[4].tempmax.toFixed(0)}°C <span>{dados.days[4].tempmin.toFixed(0)}°C</span></p>
+                                        </div>
+                                        <div className={css.previsoesDias}>
+                                            <p>{new Date(dados.days[5].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
+                                            <img src={getIcon(dados.days[5].conditions, 12)} alt="Icone tempo" />
+                                            <p>{dados.days[5].tempmax.toFixed(0)}°C <span>{dados.days[5 ].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                     </div>
                                 </>
