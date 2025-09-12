@@ -176,7 +176,7 @@ function WeatherData() {
                             <div id={css.pesquisaDados}>
                                 <img src={logo} alt="Logo"/>
                                 <div className={css.searchEngine}>
-                                    <input ref={cityName} type="text" placeholder='Buscar local' id={css.input}/>
+                                    <input ref={cityName} type="text" placeholder='Buscar local' className={css.input}/>
                                     {loading && <img src={LoadingIcon} alt="..." />}
                                 </div>
                             </div>
@@ -205,11 +205,41 @@ function WeatherData() {
                         <section>
                             <div id={css.detalhes}>
                                 <p>Detalhes do clima hoje</p>
-                                <p><span><img src={iconFeelsLike} alt="" />Sensação termica</span> <span>{dados.currentConditions.feelslike.toFixed(0)}°C</span></p>
-                                <p><span><img src={iconPrecipProb} alt="" />Probabilidade de chuva</span> <span>{dados.currentConditions.precipprob.toFixed(0)}%</span></p>
-                                <p><span><img src={iconWindSpeed} alt="" />Velocidade do vento</span> <span>{dados.currentConditions.windspeed.toFixed(0)} km/h</span></p>
-                                <p><span><img src={iconHumidity} alt="" />Umidade do ar</span> <span>{dados.currentConditions.humidity.toFixed(0)}%</span></p>
-                                <p><span><img src={iconUvIndex} alt="" />Índice UV</span> <span>{dados.currentConditions.uvindex.toFixed(0)}</span></p>
+                                <div className={css.detalhesFull}>
+                                    <div className={css.detalhesIconText}>
+                                        <img src={iconFeelsLike} alt="" />
+                                        <p>Sensação termica</p>
+                                    </div>
+                                    <p>{dados.currentConditions.feelslike.toFixed(0)}°C</p>
+                                </div>
+                                <div className={css.detalhesFull}>
+                                    <div className={css.detalhesIconText}>
+                                        <img src={iconPrecipProb} alt="" />
+                                        <p>Probabilidade de chuva</p>
+                                    </div>
+                                    <p>{dados.currentConditions.precipprob.toFixed(0)}%</p>
+                                </div>
+                                <div className={css.detalhesFull}>
+                                    <div className={css.detalhesIconText}>
+                                        <img src={iconWindSpeed} alt="" />
+                                        <p>Velocidade do vento</p>
+                                    </div>
+                                    <p>{dados.currentConditions.windspeed.toFixed(0)} km/h</p>
+                                </div>
+                                <div className={css.detalhesFull}>
+                                    <div className={css.detalhesIconText}>
+                                        <img src={iconHumidity} alt="" />
+                                        <p>Umidade do ar</p>
+                                    </div>
+                                    <p>{dados.currentConditions.humidity.toFixed(0)}%</p>
+                                </div>
+                                <div className={css.detalhesFull}>
+                                    <div className={css.detalhesIconText}>
+                                        <img src={iconUvIndex} alt="" />
+                                        <p>Índice UV</p>
+                                    </div>
+                                    <p>{dados.currentConditions.uvindex.toFixed(0)}</p>
+                                </div>
                             </div>
                             <div id={css.previsao}>
                                 <>
@@ -254,12 +284,12 @@ function WeatherData() {
                         <p>WeatherData</p>
                     </div>
                     <div className={css.pesquisa}>
-                        <div>
+                        <div id={css.tituloTexto}>
                             <h2 className={css.boasVindas}>Boas vindas ao <span id={css.strong}>WeatherData</span></h2>
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
                         <div className={css.searchEngine}>
-                            <input ref={cityName} type="text" placeholder='Buscar local' id={css.input}/>
+                            <input ref={cityName} type="text" placeholder='Buscar local' className={css.input}/>
                             {loading && <img src={LoadingIcon} alt="..." />}
                         </div>
                     </div>

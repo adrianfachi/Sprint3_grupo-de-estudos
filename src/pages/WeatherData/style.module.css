@@ -32,13 +32,15 @@
 
 .pesquisa {
     min-height: 100vh;
+    margin: 20px;
+    text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 50px;
 
-    div {
+    #tituloTexto {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -59,35 +61,41 @@
         }
     }
 
-    .searchEngine {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        background-color: #1E1E29;
-        width: 30vw;
-        align-items: center;
+    
+}
 
-        img:last-child {
-            width: 32px;
-            height: 32px;
-            margin: 10px;
-            background-color: #1E1E29;
-            animation: spin 1s linear infinite;
-        }
+.searchEngine {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #1E1E29;
+    width: calc(35vw + 47px);
+    align-items: center;
+    border-radius: 20px;
+
+    img {
+        width: 32px;
+        height: 32px;
+        margin-left: 15px;
+        margin-right: 15px;
+        background-color: #1E1E29;
+        animation: spin 1s linear infinite;
     }
 
-    #input {
+    .input {
         background-color: #1E1E29;
         border: none;
         outline: none;
+        flex: 1;
         height: 56px;
         padding-left: 16px;
-        border-radius: 12px;
-        width: 25vw;
+        border-radius: 20px;
+        width: 40vw;
         color: #FAFAFA;
     }
 
-    #input::placeholder {
+    .input::placeholder {
         color: #7F7F98;
     }
 }
@@ -99,13 +107,15 @@
     align-items: center;
     width: 100%;
     section {
-        
         min-width: calc(50% - 50px);
         min-height: calc(100vh - 40px);
         display: flex;
-        
         flex-direction: column;
         border-radius: 20px;
+    }
+
+    .input {
+        width: 80vw;
     }
 }
 
@@ -115,43 +125,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    .searchEngine {
-        display: flex;
-        justify-content: space-between;
-        background-color: #1E1E29;
-        width: 50vw;
-        align-items: center;
-        
 
-        input {
-            background-color: #1E1E29;
-            border: none;
-            outline: none;
-            height: 56px;
-            padding-left: 16px;
-            border-radius: 12px;
-            width: 40vw;
-            color: #FAFAFA;
-        }
-    }
-
-    #input::placeholder {
-        color: #7F7F98;
-    }
-
-    img {
-        background-color: #1E1E29;
-        border-radius: 12px;
-        padding: 8px;
-    }
-
-    img:last-child {
-        width: 32px;
-        height: 32px;
-        margin: 4px;
-        background-color: #1E1E29;
-        animation: spin 1s linear infinite;
-    }
 }
 
 @keyframes spin {
@@ -193,6 +167,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: end;
+    flex-wrap: wrap-reverse;
     h2 {
         font-size: 5rem;
     }
@@ -206,24 +181,22 @@
     margin-right: 16px;
     background-color: #16161F;
     border-radius: 12px;
-    p {
+    .detalhesFull {
         padding: 16px;
         display: flex;
+        flex-direction: row;
         justify-content: space-between;
+        align-items: center;
         border-bottom: #3B3B55 solid 1px;
         color: #BFBFD4;
         font-weight: 700;
     }
 
-    p > span:first-child {
+    .detalhesIconText {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: row;
         gap: 10px;
-    }
-
-    p > span:last-child{
-        color: #FAFAFA;
+        align-items: center;
     }
 
     p:first-child {
@@ -231,7 +204,7 @@
         color: #7F7F98;
     }
 
-    p:last-child {
+    div:last-child {
         border-bottom: none;
     }
 }
@@ -243,7 +216,7 @@
     margin-top: 16px;
     padding: 16px;
     background-color: #16161F;
-    border-radius: 12px;   
+    border-radius: 12px;
 }
 
 #prev5dias {
@@ -308,37 +281,41 @@
         min-height: 100vh;
 
         section {
-            min-height: auto;
-            height: auto;
-            width: 90%;
+            margin-left: 16px;
+            width: 90vw;
         }
 
         #pesquisaTemp {
-            height: 100vw;
-        }
-
-        #input {
-        width: 60vw;
+            min-height: auto;
         }
     }
 
     #temperatura {
-        height: 100vw;
+        height: auto;
         border-radius: 20px;
         font-size: 0.8rem;
+        background-size: 200%;
+        padding: 20px;
 
         h2 {
-            font-size: 2.4rem;
+            font-size: 1.4rem;
         }
     }
 
-    #input {
-        min-width: 60vw;
-        width: auto;
+    .searchEngine {
+        width: calc(85vw - 60px);
+
+        .input {
+            max-width: calc(85vw - 150px);
+        }
     }
 
     #previsao {
         margin-bottom: 16px;
+    }
+
+    #previsoes {
+        flex-wrap: wrap;
     }
 }
 
