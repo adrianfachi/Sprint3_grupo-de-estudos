@@ -306,19 +306,16 @@ function WeatherData() {
                             <h2 className={css.boasVindas}>Boas vindas ao <span id={css.strong}>WeatherData</span></h2>
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
-<<<<<<< HEAD
                         <div className={css.searchEngine}>
-                            <input ref={cityName} type="text" placeholder='Buscar local' className={css.input}/>
+                            <input 
+                                ref={cityName} 
+                                type="text" 
+                                placeholder='Buscar local' 
+                                className={css.input}
+                                onChange={handleInputChange}
+                            />
                             {loading && <img src={LoadingIcon} alt="..." />}
                         </div>
-=======
-                        <input 
-                            ref={cityName} 
-                            type="text" 
-                            placeholder='Buscar local' 
-                            id={css.input} 
-                            onChange={handleInputChange}
-                        />
 
                         {suggestions.length > 0 && (
                             <div className={css.suggestionsDropdown}>
@@ -341,7 +338,6 @@ function WeatherData() {
                                 </ul>
                             </div>
                         )}
->>>>>>> coding-Naiumy
                     </div>
                 </>
             )}
