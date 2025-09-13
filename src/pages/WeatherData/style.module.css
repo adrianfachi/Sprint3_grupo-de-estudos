@@ -31,6 +31,7 @@
 }
 
 .pesquisa {
+    position: relative;
     min-height: 100vh;
     margin: 20px;
     text-align: center;
@@ -318,10 +319,26 @@
         flex-wrap: wrap;
     }
 }
+/* Sugestões: lista sem bullets e dropdown/flutuante */
+.suggestionsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+    align-items: flex-start;
+    width: 100%;
+    text-align: left;
+}
 
-
-
-
-
-
-
+.suggestionsDropdown {
+    background: #1E1E27;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(12, 12, 12, 0.46);
+    padding: 1rem;
+    position: fixed;
+    top: 61%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 61vw;
+    z-index: 100;
+}

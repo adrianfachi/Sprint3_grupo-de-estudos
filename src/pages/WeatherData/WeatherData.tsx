@@ -33,6 +33,7 @@ import LoadingIcon from '../../assets/Loading.svg'
 function WeatherData() {
     const [dados, setDados] = useState<dadosInterface>()
     const [dadosCity, setDadosCity] = useState<Array<dadosCityInterface>>()
+    const [suggestions, setSuggestions] = useState<dadosCityInterface[]>([]);
     const key = '21c20658a9c6364742a4c2cb760a5672'
     const key2 = 'EGC5Y2WCAS5A8RVDE2996JDB9'
     const cityName = useRef<HTMLInputElement>(null);
@@ -166,6 +167,23 @@ function WeatherData() {
         }
     }
 
+    async function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const value = e.target.value;
+        if (value.length < 1) {
+            setSuggestions([]);
+            return;
+        }
+
+        try {
+            const res = await axios.get<Array<dadosCityInterface>> (
+                `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${key}`
+            );
+            setSuggestions(res.data);
+        } catch (error) {
+            setSuggestions([]);
+        }
+    }
+
     return (
         <div className={css.principal}>
             {dados && dadosCity ? (
@@ -288,10 +306,42 @@ function WeatherData() {
                             <h2 className={css.boasVindas}>Boas vindas ao <span id={css.strong}>WeatherData</span></h2>
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
+<<<<<<< HEAD
                         <div className={css.searchEngine}>
                             <input ref={cityName} type="text" placeholder='Buscar local' className={css.input}/>
                             {loading && <img src={LoadingIcon} alt="..." />}
                         </div>
+=======
+                        <input 
+                            ref={cityName} 
+                            type="text" 
+                            placeholder='Buscar local' 
+                            id={css.input} 
+                            onChange={handleInputChange}
+                        />
+
+                        {suggestions.length > 0 && (
+                            <div className={css.suggestionsDropdown}>
+                                <ul className={css.suggestionsList}>
+                                    {suggestions.map((s, index) => (
+                                        <li
+                                            key={index}
+                                            onClick={() => {
+                                                if (cityName.current) {
+                                                    cityName.current.value = s.name;
+                                                }
+                                                setSuggestions([]);
+                                                searchCity();
+                                            }}
+                                        >
+                                            {s.local_names?.pt || s.name}
+                                            {s.state? `-${s.state}` : ''} ({s.country})
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+>>>>>>> coding-Naiumy
                     </div>
                 </>
             )}
