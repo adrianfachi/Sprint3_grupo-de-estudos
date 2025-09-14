@@ -86,7 +86,7 @@ function WeatherData() {
     async function searchCity() {
         try {
             setLoading(true)
-            const apiCity = await axios.get<{ geonames : dadosCityInterface[] }>(`http://api.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`)
+            const apiCity = await axios.get<{ geonames : dadosCityInterface[] }>(`https://secure.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`)
             const city: dadosCityInterface[] = apiCity.data.geonames
             const arrayCitys : dadosCityInterface[] = []
             city.map((city) => {
@@ -186,7 +186,7 @@ function WeatherData() {
 
         try {
             const {data : res} = await axios.get<{geonames : dadosCityInterface[]}> (
-                `http://api.geonames.org/searchJSON?q=${value}&username=WeatherData&maxRows=10`
+                `https://secure.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`
             );
 
             const arraySuggestions : dadosCityInterface[] = []
