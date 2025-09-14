@@ -32,14 +32,14 @@ import LoadingIcon from '../../assets/Loading.svg'
 
 function WeatherData() {
     const [dados, setDados] = useState<dadosInterface>()
-    const [dadosCity, setDadosCity] = useState<Array<dadosCityInterface>>()
+    const [dadosCity, setDadosCity] = useState<dadosCityInterface[]>()
     const [suggestions, setSuggestions] = useState<dadosCityInterface[]>([]);
-    const key = '21c20658a9c6364742a4c2cb760a5672'
     const key2 = 'EGC5Y2WCAS5A8RVDE2996JDB9'
     const cityName = useRef<HTMLInputElement>(null);
     const tempDiv = useRef<HTMLDivElement>(null);
     const popup = useRef<HTMLDivElement>(null)
     const [loading, setLoading] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
 
 
 
@@ -65,12 +65,11 @@ function WeatherData() {
 
     interface dadosCityInterface {
         name: string
-        country: string
-        local_names: {
-            pt: string
-        }
-        state: string
-    }[]
+        fclName: string
+        countryName: string
+        adminName1: string
+        countryCode: string
+    }
 
     useEffect(() => {
         const enter = (event: KeyboardEvent) => {
@@ -87,14 +86,26 @@ function WeatherData() {
     async function searchCity() {
         try {
             setLoading(true)
-            const apiCity = await axios.get<Array<dadosCityInterface>>(`https://api.openweathermap.org/geo/1.0/direct?q=${cityName.current?.value}&limit=1&appid=${key}`)
-            const city: Array<dadosCityInterface> = apiCity.data
-            if (city.length > 0) setDadosCity(city)
-
-            const api = await axios.get<dadosInterface>(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(city[0].name)}?unitGroup=metric&key=${key2}&contentType=json`)
+            const apiCity = await axios.get<{ geonames : dadosCityInterface[] }>(`http://api.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`)
+            const city: dadosCityInterface[] = apiCity.data.geonames
+            const arrayCitys : dadosCityInterface[] = []
+            city.map((city) => {
+                if(city.fclName.includes("city")) {
+                    arrayCitys.push(city);
+                }
+            })
+            if (city.length > 0) [
+                setDadosCity(arrayCitys)
+            ]
+            const location = `${arrayCitys[0].name}, ${arrayCitys[0].countryCode}`;
+            const api = await axios.get<dadosInterface>(
+            `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}?unitGroup=metric&key=${key2}&contentType=json`
+            );
             const temp: dadosInterface = api.data
             setDados(temp)
-            if(cityName.current) {
+            
+            
+            if(cityName.current) {  
                 cityName.current.value = ""
             }
         } catch (error) {
@@ -107,7 +118,6 @@ function WeatherData() {
 
 
     function getBackgroundImage(clima: string, hour: number) {
-        // console.log(hour)
         const isNight = hour < 6 || hour >= 18
         const normalized = clima.toLowerCase()
         if (normalized.includes('clear')) {
@@ -175,10 +185,17 @@ function WeatherData() {
         }
 
         try {
-            const res = await axios.get<Array<dadosCityInterface>> (
-                `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${key}`
+            const {data : res} = await axios.get<{geonames : dadosCityInterface[]}> (
+                `http://api.geonames.org/searchJSON?q=${value}&username=WeatherData&maxRows=10`
             );
-            setSuggestions(res.data);
+
+            const arraySuggestions : dadosCityInterface[] = []
+            res.geonames.map((city) => {
+                if(city.fclName.includes("city")) {
+                    arraySuggestions.push(city);        
+                }
+            })
+            setSuggestions(arraySuggestions)
         } catch (error) {
             setSuggestions([]);
         }
@@ -193,15 +210,46 @@ function WeatherData() {
                         <section id={css.pesquisaTemp}>
                             <div id={css.pesquisaDados}>
                                 <img src={logo} alt="Logo"/>
-                                <div className={css.searchEngine}>
-                                    <input ref={cityName} type="text" placeholder='Buscar local' className={css.input}/>
-                                    {loading && <img src={LoadingIcon} alt="..." />}
-                                </div>
+                                <div>
+                                    <div className={css.searchEngine}>
+                                        <div>
+                                            <input 
+                                                ref={cityName} 
+                                                type="text" 
+                                                placeholder='Buscar local' 
+                                                className={css.input}
+                                                onChange={handleInputChange}
+                                                onFocus={() => setIsFocused(true)}
+                                                onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                                            />
+                                        </div>
+                                        {loading && <img src={LoadingIcon} alt="..." />}
+                                    </div>
+                                {suggestions.length > 0 && isFocused && (
+                                    <ul className={css.suggestionsDropdown}>
+                                        {suggestions.map((s, index) => (
+                                            <li
+                                                className={css.suggestion}
+                                                key={index}
+                                                onClick={() => {
+                                                    if (cityName.current) {
+                                                        cityName.current.value = s.name;
+                                                    }
+                                                    setSuggestions([]);
+                                                    searchCity();
+                                                }}
+                                            >
+                                                {s.name} - {s.countryName}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
                             </div>
                             <div id={css.temperatura} ref={tempDiv}>
                                 <div id={css.nomeDatas}>
                                     <div>
-                                        <h2>{dadosCity[0].local_names ? (dadosCity[0].local_names.pt) : (dadosCity[0].name)}, {dadosCity[0].state ? (dadosCity[0].state) : (dadosCity[0].country)}</h2>
+                                        <h2>{dadosCity[0] ? (dadosCity[0].name) : ("")}{dadosCity[0].adminName1 ? (", " + dadosCity[0].adminName1) : ("")}{dadosCity[0].countryName ? (", " + dadosCity[0].countryName) : ("")}</h2>
                                         <p>{new Date(dados.days[1].datetime).toLocaleDateString(undefined, {
                                             weekday: 'long',
                                             year: 'numeric',
@@ -306,22 +354,26 @@ function WeatherData() {
                             <h2 className={css.boasVindas}>Boas vindas ao <span id={css.strong}>WeatherData</span></h2>
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
-                        <div className={css.searchEngine}>
-                            <input 
-                                ref={cityName} 
-                                type="text" 
-                                placeholder='Buscar local' 
-                                className={css.input}
-                                onChange={handleInputChange}
-                            />
-                            {loading && <img src={LoadingIcon} alt="..." />}
-                        </div>
-
-                        {suggestions.length > 0 && (
-                            <div className={css.suggestionsDropdown}>
-                                <ul className={css.suggestionsList}>
+                            <div>
+                                <div className={css.searchEngine}>
+                                    <div>
+                                        <input 
+                                            ref={cityName} 
+                                            type="text" 
+                                            placeholder='Buscar local' 
+                                            className={css.input}
+                                            onChange={handleInputChange}
+                                            onFocus={() => setIsFocused(true)}
+                                            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
+                                        />
+                                    </div>
+                                    {loading && <img src={LoadingIcon} alt="..." />}
+                                </div>
+                            {suggestions.length > 0 && isFocused && (
+                                <ul className={css.suggestionsDropdown}>
                                     {suggestions.map((s, index) => (
                                         <li
+                                            className={css.suggestion}
                                             key={index}
                                             onClick={() => {
                                                 if (cityName.current) {
@@ -331,13 +383,12 @@ function WeatherData() {
                                                 searchCity();
                                             }}
                                         >
-                                            {s.local_names?.pt || s.name}
-                                            {s.state? `-${s.state}` : ''} ({s.country})
+                                            {s.name} - {s.countryName}
                                         </li>
                                     ))}
                                 </ul>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                 </>
             )}

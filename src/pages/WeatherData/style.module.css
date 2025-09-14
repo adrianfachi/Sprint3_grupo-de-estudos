@@ -16,7 +16,7 @@
 }
 
 .logo {
-    position: fixed;
+    position: absolute;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -68,18 +68,16 @@
 .searchEngine {
     position: relative;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     background-color: #1E1E29;
-    width: calc(35vw + 47px);
+    width: fit-content;
     align-items: center;
     border-radius: 20px;
 
     img {
+        position: absolute;
+        right: 2%;
         width: 32px;
         height: 32px;
-        margin-left: 15px;
-        margin-right: 15px;
         background-color: #1E1E29;
         animation: spin 1s linear infinite;
     }
@@ -101,6 +99,10 @@
     }
 }
 
+.suggestionsDropdown{
+    width: calc(40vw + 16px);
+}
+
 #resultado {
     display: flex;
     flex-direction: row;
@@ -114,10 +116,6 @@
         flex-direction: column;
         border-radius: 20px;
     }
-
-    .input {
-        width: 80vw;
-    }
 }
 
 #pesquisaDados {
@@ -126,7 +124,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-
 }
 
 @keyframes spin {
@@ -147,7 +144,7 @@
     padding: 50px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100vw;
+    background-size: cover;
     display: flex;
     flex-direction: column;
     height: calc(100vh - 250px);
@@ -303,12 +300,12 @@
         }
     }
 
-    .searchEngine {
-        width: calc(85vw - 60px);
+    .input {
+        min-width: calc(90vw - 110px);
+    }
 
-        .input {
-            max-width: calc(85vw - 150px);
-        }
+    .suggestionsDropdown{
+        min-width: calc(90vw - 110px + 16px);
     }
 
     #previsao {
@@ -318,27 +315,37 @@
     #previsoes {
         flex-wrap: wrap;
     }
+
 }
 /* Sugestões: lista sem bullets e dropdown/flutuante */
-.suggestionsList {
+
+.suggestionsDropdown{
+    position: absolute;
+    margin-top: 10px;
     list-style: none;
-    padding: 0;
-    margin: 0;
-    display: block;
-    align-items: flex-start;
-    width: 100%;
-    text-align: left;
+    border-radius: 20px;
+    background: #3B3B54;
+    box-shadow: 0 2px 8px rgba(12, 12, 12, 0.46);
+    z-index: 100;
+
+    .suggestion:first-child {
+        border-radius: 20px 20px 0 0;
+    }
+
+    .suggestion:last-child {
+        border-radius: 0 0 20px 20px;
+    }
 }
 
-.suggestionsDropdown {
-    background: #1E1E27;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(12, 12, 12, 0.46);
-    padding: 1rem;
-    position: fixed;
-    top: 61%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 61vw;
-    z-index: 100;
+.suggestion {
+    padding: 10px 0 10px 16px;
+    text-align: left;
+    border-bottom: solid 1px #13131A;
+    color: #FAFAFA;
+    cursor: pointer;
+}
+
+.suggestion:hover {
+    background-color: #7F7F98;
+
 }
