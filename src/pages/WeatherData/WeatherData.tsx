@@ -29,6 +29,9 @@ import iconPrecipProb from '../../assets/iconPrecipProb.svg'
 import iconUvIndex from '../../assets/iconUvIndex.svg'
 import iconWindSpeed from '../../assets/iconWindSpeed.svg'
 import LoadingIcon from '../../assets/Loading.svg'
+import LocationInput from '../../components/LocationInput'
+import type dadosInterface from '../../Interfaces/dadosInterface'
+import type dadosCityInterface from '../../Interfaces/dadosCityInterface'
 
 function WeatherData() {
     const [dados, setDados] = useState<dadosInterface>()
@@ -40,36 +43,6 @@ function WeatherData() {
     const popup = useRef<HTMLDivElement>(null)
     const [loading, setLoading] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
-
-
-
-    interface dadosInterface {
-        days: {
-            conditions: string
-            datetime: string
-            tempmax: number
-            tempmin: number
-        }[]
-        currentConditions: {
-            conditions: string
-            datetime: string
-            datetimeEpoch: number
-            feelslike: number
-            humidity: number
-            precipprob: number
-            temp: number
-            windspeed: number
-            uvindex: number
-        }
-    }
-
-    interface dadosCityInterface {
-        name: string
-        fclName: string
-        countryName: string
-        adminName1: string
-        countryCode: string
-    }
 
     useEffect(() => {
         const enter = (event: KeyboardEvent) => {
@@ -86,11 +59,11 @@ function WeatherData() {
     async function searchCity() {
         try {
             setLoading(true)
-            const apiCity = await axios.get<{ geonames : dadosCityInterface[] }>(`https://secure.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`)
+            const apiCity = await axios.get<{ geonames: dadosCityInterface[] }>(`https://secure.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`)
             const city: dadosCityInterface[] = apiCity.data.geonames
-            const arrayCitys : dadosCityInterface[] = []
+            const arrayCitys: dadosCityInterface[] = []
             city.map((city) => {
-                if(city.fclName.includes("city")) {
+                if (city.fclName.includes("city")) {
                     arrayCitys.push(city);
                 }
             })
@@ -99,13 +72,12 @@ function WeatherData() {
             ]
             const location = `${arrayCitys[0].name}, ${arrayCitys[0].countryCode}`;
             const api = await axios.get<dadosInterface>(
-            `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}?unitGroup=metric&key=${key2}&contentType=json`
+                `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(location)}?unitGroup=metric&key=${key2}&contentType=json`
             );
             const temp: dadosInterface = api.data
             setDados(temp)
-            
-            
-            if(cityName.current) {  
+            setSuggestions([])
+            if (cityName.current) {
                 cityName.current.value = ""
             }
         } catch (error) {
@@ -185,14 +157,14 @@ function WeatherData() {
         }
 
         try {
-            const {data : res} = await axios.get<{geonames : dadosCityInterface[]}> (
+            const { data: res } = await axios.get<{ geonames: dadosCityInterface[] }>(
                 `https://secure.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`
             );
 
-            const arraySuggestions : dadosCityInterface[] = []
+            const arraySuggestions: dadosCityInterface[] = []
             res.geonames.map((city) => {
-                if(city.fclName.includes("city")) {
-                    arraySuggestions.push(city);        
+                if (city.fclName.includes("city")) {
+                    arraySuggestions.push(city);
                 }
             })
             setSuggestions(arraySuggestions)
@@ -209,43 +181,10 @@ function WeatherData() {
                     <div id={css.resultado}>
                         <section id={css.pesquisaTemp}>
                             <div id={css.pesquisaDados}>
-                                <img src={logo} alt="Logo"/>
-                                <div>
-                                    <div className={css.searchEngine}>
-                                        <div>
-                                            <input 
-                                                ref={cityName} 
-                                                type="text" 
-                                                placeholder='Buscar local' 
-                                                className={css.input}
-                                                onChange={handleInputChange}
-                                                onFocus={() => setIsFocused(true)}
-                                                onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-                                            />
-                                        </div>
-                                        {loading && <img src={LoadingIcon} alt="..." />}
-                                    </div>
-                                {suggestions.length > 0 && isFocused && (
-                                    <ul className={css.suggestionsDropdown}>
-                                        {suggestions.map((s, index) => (
-                                            <li
-                                                className={css.suggestion}
-                                                key={index}
-                                                onClick={() => {
-                                                    if (cityName.current) {
-                                                        cityName.current.value = s.name;
-                                                    }
-                                                    setSuggestions([]);
-                                                    searchCity();
-                                                }}
-                                            >
-                                                {s.name} - {s.countryName}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
+                                <img src={logo} alt="Logo" />
+                                <LocationInput refInput={cityName} handleInputChange={handleInputChange} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
                             </div>
-                            </div>
+                            
                             <div id={css.temperatura} ref={tempDiv}>
                                 <div id={css.nomeDatas}>
                                     <div>
@@ -334,7 +273,7 @@ function WeatherData() {
                                         <div className={css.previsoesDias}>
                                             <p>{new Date(dados.days[6].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
                                             <img src={getIcon(dados.days[5].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[5].tempmax.toFixed(0)}°C <span>{dados.days[5 ].tempmin.toFixed(0)}°C</span></p>
+                                            <p>{dados.days[5].tempmax.toFixed(0)}°C <span>{dados.days[5].tempmin.toFixed(0)}°C</span></p>
                                         </div>
                                     </div>
                                 </>
@@ -354,40 +293,8 @@ function WeatherData() {
                             <h2 className={css.boasVindas}>Boas vindas ao <span id={css.strong}>WeatherData</span></h2>
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
-                            <div>
-                                <div className={css.searchEngine}>
-                                    <div>
-                                        <input 
-                                            ref={cityName} 
-                                            type="text" 
-                                            placeholder='Buscar local' 
-                                            className={css.input}
-                                            onChange={handleInputChange}
-                                            onFocus={() => setIsFocused(true)}
-                                            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
-                                        />
-                                    </div>
-                                    {loading && <img src={LoadingIcon} alt="..." />}
-                                </div>
-                            {suggestions.length > 0 && isFocused && (
-                                <ul className={css.suggestionsDropdown}>
-                                    {suggestions.map((s, index) => (
-                                        <li
-                                            className={css.suggestion}
-                                            key={index}
-                                            onClick={() => {
-                                                if (cityName.current) {
-                                                    cityName.current.value = s.name;
-                                                }
-                                                setSuggestions([]);
-                                                searchCity();
-                                            }}
-                                        >
-                                            {s.name} - {s.countryName}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                        <div>
+                            <LocationInput refInput={cityName} handleInputChange={handleInputChange} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
                         </div>
                     </div>
                 </>
