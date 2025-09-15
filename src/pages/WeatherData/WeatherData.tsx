@@ -23,13 +23,9 @@ import SnowDayIcon from '../../assets/Weather=Snow, Moment=Day.svg'
 import SnowNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
 import StormDayIcon from '../../assets/Weather=Storm, Moment=Day.svg'
 import StormNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
-import iconFeelsLike from '../../assets/iconFeelsLike.svg'
-import iconHumidity from '../../assets/iconHumidity.svg'
-import iconPrecipProb from '../../assets/iconPrecipProb.svg'
-import iconUvIndex from '../../assets/iconUvIndex.svg'
-import iconWindSpeed from '../../assets/iconWindSpeed.svg'
-import LoadingIcon from '../../assets/Loading.svg'
 import LocationInput from '../../components/LocationInput'
+import DayForeCast from '../../components/dayForeCast'
+import WeatherDetails from "../../components/weatherDetails"
 import type dadosInterface from '../../Interfaces/dadosInterface'
 import type dadosCityInterface from '../../Interfaces/dadosCityInterface'
 
@@ -184,7 +180,6 @@ function WeatherData() {
                                 <img src={logo} alt="Logo" />
                                 <LocationInput refInput={cityName} handleInputChange={handleInputChange} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
                             </div>
-                            
                             <div id={css.temperatura} ref={tempDiv}>
                                 <div id={css.nomeDatas}>
                                     <div>
@@ -208,73 +203,16 @@ function WeatherData() {
                             </div>
                         </section>
                         <section>
-                            <div id={css.detalhes}>
-                                <p>Detalhes do clima hoje</p>
-                                <div className={css.detalhesFull}>
-                                    <div className={css.detalhesIconText}>
-                                        <img src={iconFeelsLike} alt="" />
-                                        <p>Sensação termica</p>
-                                    </div>
-                                    <p>{dados.currentConditions.feelslike.toFixed(0)}°C</p>
-                                </div>
-                                <div className={css.detalhesFull}>
-                                    <div className={css.detalhesIconText}>
-                                        <img src={iconPrecipProb} alt="" />
-                                        <p>Probabilidade de chuva</p>
-                                    </div>
-                                    <p>{dados.currentConditions.precipprob.toFixed(0)}%</p>
-                                </div>
-                                <div className={css.detalhesFull}>
-                                    <div className={css.detalhesIconText}>
-                                        <img src={iconWindSpeed} alt="" />
-                                        <p>Velocidade do vento</p>
-                                    </div>
-                                    <p>{dados.currentConditions.windspeed.toFixed(0)} km/h</p>
-                                </div>
-                                <div className={css.detalhesFull}>
-                                    <div className={css.detalhesIconText}>
-                                        <img src={iconHumidity} alt="" />
-                                        <p>Umidade do ar</p>
-                                    </div>
-                                    <p>{dados.currentConditions.humidity.toFixed(0)}%</p>
-                                </div>
-                                <div className={css.detalhesFull}>
-                                    <div className={css.detalhesIconText}>
-                                        <img src={iconUvIndex} alt="" />
-                                        <p>Índice UV</p>
-                                    </div>
-                                    <p>{dados.currentConditions.uvindex.toFixed(0)}</p>
-                                </div>
-                            </div>
+                            <WeatherDetails dados={dados}/>
                             <div id={css.previsao}>
                                 <>
                                     <p id={css.prev5dias}>Previsão para 5 dias</p>
                                     <div id={css.previsoes}>
-                                        <div className={css.previsoesDias}>
-                                            <p>Amanhã</p>
-                                            <img src={getIcon(dados.days[1].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[1].tempmax.toFixed(0)}°C <span>{dados.days[1].tempmin.toFixed(0)}°C</span></p>
-                                        </div>
-                                        <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[3].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
-                                            <img src={getIcon(dados.days[2].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[2].tempmax.toFixed(0)}°C <span>{dados.days[2].tempmin.toFixed(0)}°C</span></p>
-                                        </div>
-                                        <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[4].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
-                                            <img src={getIcon(dados.days[3].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[3].tempmax.toFixed(0)}°C <span>{dados.days[3].tempmin.toFixed(0)}°C</span></p>
-                                        </div>
-                                        <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[5].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
-                                            <img src={getIcon(dados.days[4].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[4].tempmax.toFixed(0)}°C <span>{dados.days[4].tempmin.toFixed(0)}°C</span></p>
-                                        </div>
-                                        <div className={css.previsoesDias}>
-                                            <p>{new Date(dados.days[6].datetime).toLocaleDateString(undefined, { weekday: 'short' })}</p>
-                                            <img src={getIcon(dados.days[5].conditions, 12)} alt="Icone tempo" />
-                                            <p>{dados.days[5].tempmax.toFixed(0)}°C <span>{dados.days[5].tempmin.toFixed(0)}°C</span></p>
-                                        </div>
+                                        <DayForeCast day={"amanhã"} getIcon={getIcon} dados={dados} indexDay={0}/>
+                                        <DayForeCast day={new Date(dados.days[3].datetime).toLocaleDateString(undefined, { weekday: 'short' })} getIcon={getIcon} dados={dados} indexDay={2}/>
+                                        <DayForeCast day={new Date(dados.days[4].datetime).toLocaleDateString(undefined, { weekday: 'short' })} getIcon={getIcon} dados={dados} indexDay={3}/>
+                                        <DayForeCast day={new Date(dados.days[5].datetime).toLocaleDateString(undefined, { weekday: 'short' })} getIcon={getIcon} dados={dados} indexDay={4}/>
+                                        <DayForeCast day={new Date(dados.days[6].datetime).toLocaleDateString(undefined, { weekday: 'short' })} getIcon={getIcon} dados={dados} indexDay={5}/>
                                     </div>
                                 </>
                             </div>
