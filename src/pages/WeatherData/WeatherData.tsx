@@ -24,8 +24,8 @@ import SnowNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
 import StormDayIcon from '../../assets/Weather=Storm, Moment=Day.svg'
 import StormNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
 import LocationInput from '../../components/LocationInput'
-import DayForeCast from '../../components/dayForeCast'
-import WeatherDetails from "../../components/weatherDetails"
+import DayForeCast from '../../components/ForeCast'
+import WeatherDetails from "../../components/Details"
 import type dadosInterface from '../../Interfaces/dadosInterface'
 import type dadosCityInterface from '../../Interfaces/dadosCityInterface'
 
