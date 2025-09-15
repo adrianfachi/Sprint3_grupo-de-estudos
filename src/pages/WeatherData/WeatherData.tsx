@@ -2,27 +2,9 @@ import css from './style.module.css'
 import logo from '../../assets/Logo.svg'
 import axios from 'axios'
 import { useRef, useState, useEffect } from 'react'
-import ClearDay from '../../assets/ClearDay.svg'
-import ClearNight from '../../assets/ClearNight.svg'
-import CloudyDay from '../../assets/CloudyDay.svg'
-import CloudyNight from '../../assets/CloudyNight.svg'
-import RainDay from '../../assets/RainDay.svg'
-import RainNight from '../../assets/RainNight.svg'
-import SnowDay from '../../assets/SnowDay.svg'
-import SnowNight from '../../assets/SnowNight.svg'
-import StormDay from '../../assets/StormDay.svg'
-import StormNight from '../../assets/StormNight.svg'
-import Default from '../../assets/RainNight.svg'
-import ClearDayIcon from '../../assets/Weather=Clear, Moment=Day.svg'
-import ClearNightIcon from '../../assets/Weather=Clear, Moment=Night.svg'
-import CloudyDayIcon from '../../assets/Weather=Cloudy, Moment=Day.svg'
-import CloudyNightIcon from '../../assets/Weather=Clear, Moment=Night.svg'
-import RainDayIcon from '../../assets/Weather=Rain, Moment=Day.svg'
-import RainNightIcon from '../../assets/Weather=Rain, Moment=Night.svg'
-import SnowDayIcon from '../../assets/Weather=Snow, Moment=Day.svg'
-import SnowNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
-import StormDayIcon from '../../assets/Weather=Storm, Moment=Day.svg'
-import StormNightIcon from '../../assets/Weather=Snow, Moment=Night.svg'
+import getBackgroundImage from '../../functions/getBackgroundImage.tsx'
+import getIcon from '../../functions/getIcon.tsx'
+import handleInputChange from '../../functions/handleInputChange.tsx'
 import LocationInput from '../../components/LocationInput'
 import DayForeCast from '../../components/ForeCast'
 import WeatherDetails from "../../components/Details"
@@ -84,49 +66,6 @@ function WeatherData() {
 
     }
 
-
-    function getBackgroundImage(clima: string, hour: number) {
-        const isNight = hour < 6 || hour >= 18
-        const normalized = clima.toLowerCase()
-        if (normalized.includes('clear')) {
-            return isNight ? `url(${ClearNight})` : `url(${ClearDay})`
-        }
-        if (normalized.includes('rain')) {
-            return isNight ? `url(${RainNight})` : `url(${RainDay})`
-        }
-        if (normalized.includes('snow')) {
-            return isNight ? `url(${SnowNight})` : `url(${SnowDay})`
-        }
-        if (normalized.includes('storm')) {
-            return isNight ? `url(${StormNight})` : `url(${StormDay})`
-        }
-        if (normalized.includes('cloudy') || normalized.includes('overcast')) {
-            return isNight ? `url(${CloudyNight})` : `url(${CloudyDay})`
-        }
-        return `url(${Default})`
-    }
-
-    function getIcon(clima: string, hour: number) {
-        const isNight = hour < 6 || hour >= 18
-        const normalized = clima.toLowerCase()
-        if (normalized.includes('clear')) {
-            return isNight ? ClearNightIcon : ClearDayIcon
-        }
-        if (normalized.includes('rain')) {
-            return isNight ? RainNightIcon : RainDayIcon
-        }
-        if (normalized.includes('snow')) {
-            return isNight ? SnowNightIcon : SnowDayIcon
-        }
-        if (normalized.includes('storm')) {
-            return isNight ? StormNightIcon : StormDayIcon
-        }
-        if (normalized.includes('cloudy') || normalized.includes('overcast')) {
-            return isNight ? CloudyNightIcon : CloudyDayIcon
-        }
-        return isNight ? ClearNightIcon : ClearDayIcon
-    }
-
     useEffect(() => {
         if (dados && tempDiv.current) {
             tempDiv.current.style.backgroundImage = getBackgroundImage(dados.currentConditions.conditions, Number(dados.currentConditions.datetime.slice(0, 2)))
@@ -145,30 +84,6 @@ function WeatherData() {
         }
     }
 
-    async function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const value = e.target.value;
-        if (value.length < 1) {
-            setSuggestions([]);
-            return;
-        }
-
-        try {
-            const { data: res } = await axios.get<{ geonames: dadosCityInterface[] }>(
-                `https://secure.geonames.org/searchJSON?q=${cityName.current?.value}&username=WeatherData&maxRows=10`
-            );
-
-            const arraySuggestions: dadosCityInterface[] = []
-            res.geonames.map((city) => {
-                if (city.fclName.includes("city")) {
-                    arraySuggestions.push(city);
-                }
-            })
-            setSuggestions(arraySuggestions)
-        } catch (error) {
-            setSuggestions([]);
-        }
-    }
-
     return (
         <div className={css.principal}>
             {dados && dadosCity ? (
@@ -178,7 +93,7 @@ function WeatherData() {
                         <section id={css.pesquisaTemp}>
                             <div id={css.pesquisaDados}>
                                 <img src={logo} alt="Logo" />
-                                <LocationInput refInput={cityName} handleInputChange={handleInputChange} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
+                                <LocationInput refInput={cityName} handleInputChange={(e) => handleInputChange({ e, setSuggestions, cityName })} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
                             </div>
                             <div id={css.temperatura} ref={tempDiv}>
                                 <div id={css.nomeDatas}>
@@ -232,7 +147,7 @@ function WeatherData() {
                             <p>Escolha um local para ver a previsão do tempo</p>
                         </div>
                         <div>
-                            <LocationInput refInput={cityName} handleInputChange={handleInputChange} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
+                            <LocationInput refInput={cityName} handleInputChange={(e) => handleInputChange({ e, setSuggestions, cityName })} setIsFocused={setIsFocused} loading={loading} suggestions={suggestions} isFocused={isFocused} cityName={cityName} setSuggestions={setSuggestions} searchCity={searchCity}/>
                         </div>
                     </div>
                 </>
