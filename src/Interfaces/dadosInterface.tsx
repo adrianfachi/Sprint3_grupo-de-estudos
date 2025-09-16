@@ -4,6 +4,9 @@ export default interface dadosInterface {
         datetime: string
         tempmax: number
         tempmin: number
+        precipprob: number
+        precip: number
+        description: string
     }[]
     currentConditions: {
         conditions: string

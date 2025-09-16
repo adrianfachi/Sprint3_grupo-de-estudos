@@ -88,6 +88,7 @@ function WeatherData() {
         <div className={css.principal}>
             {dados && dadosCity ? (
                 <>
+                {console.log(dados)}
                     <div ref={popup} className={css.popup}></div>
                     <div id={css.resultado}>
                         <section id={css.pesquisaTemp}>

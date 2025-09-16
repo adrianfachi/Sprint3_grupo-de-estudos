@@ -1,5 +1,7 @@
 import ClearDayIcon from '../assets/Weather=Clear, Moment=Day.svg'
 import ClearNightIcon from '../assets/Weather=Clear, Moment=Night.svg'
+import FewCloudsDayIcon from '../assets/Weather=Few clouds, Moment=Day.svg'
+import FewCloudsNightIcon from '../assets/Weather=Few clouds, Moment=Night.svg'
 import CloudyDayIcon from '../assets/Weather=Cloudy, Moment=Day.svg'
 import CloudyNightIcon from '../assets/Weather=Clear, Moment=Night.svg'
 import RainDayIcon from '../assets/Weather=Rain, Moment=Day.svg'
@@ -23,6 +25,9 @@ export default function getIcon(clima: string, hour: number) {
     }
     if (normalized.includes('storm')) {
         return isNight ? StormNightIcon : StormDayIcon
+    }
+    if (normalized.includes('partially cloudy')) {
+        return isNight ? FewCloudsNightIcon : FewCloudsDayIcon
     }
     if (normalized.includes('cloudy') || normalized.includes('overcast')) {
         return isNight ? CloudyNightIcon : CloudyDayIcon
