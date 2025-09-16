@@ -7,6 +7,12 @@ export default interface dadosInterface {
         precipprob: number
         precip: number
         description: string
+        hours: {
+            datetime: string
+            temp: number
+            precipprob: number
+            conditions: string
+        }[]
     }[]
     currentConditions: {
         conditions: string
