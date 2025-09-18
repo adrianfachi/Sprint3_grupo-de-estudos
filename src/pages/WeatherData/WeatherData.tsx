@@ -109,9 +109,9 @@ function WeatherData() {
 		}
 	}
 
-	function getNextHour() {
+	function getNextHour(hour: number) {
 		const data = new Date();
-		data.setHours(data.getHours() + 1);
+		data.setHours(hour + 1);
 
 		return data.toLocaleTimeString(undefined, { hour: "2-digit" });
 	}
@@ -124,7 +124,7 @@ function WeatherData() {
 					<div id={css.resultado}>
 						<section id={css.pesquisaTemp}>
 							<div id={css.pesquisaDados}>
-								<img src={logo} alt="Logo" onClick={() => {location.reload()}}/>
+								<img src={logo} alt="Logo" onClick={() => {setDados(undefined); setDadosCity([])}}/>
 								<LocationInput
 									refInput={cityName}
 									handleInputChange={(e) =>
@@ -187,13 +187,13 @@ function WeatherData() {
 									{[0, 1].map((day) =>
 										dados.days[day].hours.map((hour) => {
 											if (
-												(hour.datetime.slice(0, 2) >= getNextHour() &&
+												(hour.datetime.slice(0, 2) >= getNextHour(Number(dados.currentConditions.datetime.slice(0,2))) &&
 													day === 0) ||
-												(hour.datetime.slice(0, 2) < getNextHour() && day === 1)
+												(hour.datetime.slice(0, 2) < getNextHour(Number(dados.currentConditions.datetime.slice(0,2))) && day === 1)
 											) {
 												return (
 													<HourForecast
-														key={`${day}-${hour.datetime}`} // sempre bom usar key no map
+														key={`${day}-${hour.datetime}`}
 														hour={hour.datetime.slice(0, 2)}
 														getIcon={getIcon}
 														dados={dados}
