@@ -29,7 +29,7 @@ export default function DayForeCast({
 
 
     return (
-        <div className={`${css.previsoesDias} ${active ? css.active : ""}`} onClick={() => { setActive(!active)}}>
+        <div className={`${css.previsoesDias} ${active ? css.active : ""}`} id={css.prevDay} onClick={() => { setActive(!active)}}>
             {active ? (
                 <>
                     <p>{day}</p>

@@ -22,6 +22,7 @@ function WeatherData() {
 	const popup = useRef<HTMLDivElement>(null);
 	const [loading, setLoading] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
+	let cities: string[] = JSON.parse(localStorage.getItem("cities") || '[]');
 
 	useEffect(() => {
 		const enter = (event: KeyboardEvent) => {
@@ -48,8 +49,30 @@ function WeatherData() {
 					arrayCitys.push(city);
 				}
 			});
-			if (city.length > 0) [setDadosCity(arrayCitys)];
-			const location = `${arrayCitys[0].name}, ${arrayCitys[0].countryCode}`;
+			const location = `${arrayCitys[0].name} - ${arrayCitys[0].countryName}`;
+
+			let existe = false
+			cities.map((city) => {
+				if (city == location) {
+					existe = true
+				}
+			})
+
+			if(!existe) {
+				if (cities.length < 5) {
+					cities.unshift(location)
+				} else {
+					cities.pop()
+					cities.unshift(location)
+				}
+			}
+
+			if (city.length > 0) {
+				setDadosCity(arrayCitys)
+				localStorage.setItem("cities", JSON.stringify(cities));
+			}
+
+			
 			const api = await axios.get<dadosInterface>(
 				`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${encodeURIComponent(
 					location
@@ -100,12 +123,11 @@ function WeatherData() {
 		<div className={css.principal}>
 			{dados && dadosCity ? (
 				<>
-					{console.log(dados)}
 					<div ref={popup} className={css.popup}></div>
 					<div id={css.resultado}>
 						<section id={css.pesquisaTemp}>
 							<div id={css.pesquisaDados}>
-								<img src={logo} alt="Logo" />
+								<img src={logo} alt="Logo" onClick={() => {location.reload()}}/>
 								<LocationInput
 									refInput={cityName}
 									handleInputChange={(e) =>
@@ -247,7 +269,23 @@ function WeatherData() {
 								searchCity={searchCity}
 							/>
 						</div>
+						<div id={css.citiesPesquisadas}>
+							<>
+								{cities.map((city, index) => {
+									return (
+										<input key={index} type="button" value={city} onClick={() => {
+											if (cityName.current) {
+												cityName.current.value = city
+											}
+											searchCity();
+										}
+										}/>
+									)
+								})}
+							</>
+						</div>
 					</div>
+					
 				</>
 			)}
 		</div>

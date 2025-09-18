@@ -125,6 +125,13 @@
     display: flex;
     align-items: center;
     gap: 10px;
+
+    img {
+        background-color: #1E1E29;
+        padding: 8px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
 }
 
 @keyframes spin {
@@ -226,8 +233,9 @@
 
 #previsoes {
     display: flex;
-    justify-content: center;
     gap: 5px;
+    justify-content: flex-start;
+    overflow-x: auto;
 }
 
 .previsoesDias {
@@ -238,7 +246,6 @@
     padding: 16px;
     gap: 10px;
     text-align: center;
-    cursor: pointer;
     background-color: #1E1E29;
     border-radius: 16px;
 
@@ -265,6 +272,11 @@
     p > span {
         color: #7F7F98;
     }
+}
+
+#prevDay {
+    cursor: pointer;
+    min-width: 120px;
 }
 
 .popup , .popupAtivo{
@@ -323,6 +335,22 @@
     gap: 5px;
 }
 
+#citiesPesquisadas {
+    display: flex;
+    flex-direction: row;
+    justify-content: center ;
+    gap: 5px;
+    flex-wrap: wrap;
+    input {
+        padding: 15px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background-color: #1E1E29;
+        color: #FAFAFA;
+    }
+}
+
 @media (max-width: 1000px) {
     #resultado {
         flex-direction: column;
@@ -360,11 +388,6 @@
 
     #previsao {
         margin-bottom: 16px;
-    }
-
-    #previsoes {
-        justify-content: flex-start;
-        overflow-x: auto;
     }
 
     .previsoesDias > img {
