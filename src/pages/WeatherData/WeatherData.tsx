@@ -22,7 +22,7 @@ function WeatherData() {
 	const popup = useRef<HTMLDivElement>(null);
 	const [loading, setLoading] = useState(false);
 	const [isFocused, setIsFocused] = useState(false);
-	let cities: string[] = JSON.parse(localStorage.getItem("cities") || '[]');
+	const cities: string[] = JSON.parse(localStorage.getItem("cities") || '[]');
 
 	useEffect(() => {
 		const enter = (event: KeyboardEvent) => {
@@ -51,20 +51,17 @@ function WeatherData() {
 			});
 			const location = `${arrayCitys[0].name} - ${arrayCitys[0].countryName}`;
 
-			let existe = false
-			cities.map((city) => {
-				if (city == location) {
-					existe = true
-				}
-			})
-
-			if(!existe) {
+			if(cities.indexOf(location) == -1) {
 				if (cities.length < 5) {
 					cities.unshift(location)
 				} else {
 					cities.pop()
 					cities.unshift(location)
 				}
+			} else {
+				const indexRemove = cities.indexOf(location)
+				cities.splice(indexRemove, 1)
+				cities.unshift(location)
 			}
 
 			if (city.length > 0) {

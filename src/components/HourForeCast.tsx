@@ -22,7 +22,7 @@ export default function HourForecast({
     return (
         <div className={css.previsoesDias}>
             <>
-                <p>{hour}</p>
+                <p>{hour}:00</p>
                 <img src={getIcon(conditions, Number(hour))} alt="Ícone do tempo" />
                 <p>{temp.toFixed(0)}°C</p>
                 <p id={css.precipForeCast}><img src={iconPrecipProb} alt="Chuva" />{precipprob.toFixed(0)}%</p>
